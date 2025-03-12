@@ -1,3 +1,6 @@
+Build: docker build -t flask-api .
+Start: docker run -p 5000:5000 flask-api
+
 # Use an official Python runtime as a base image
 FROM python:3.9
 
