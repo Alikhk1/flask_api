@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir flask flask-cors tensorflow numpy pillow
 EXPOSE 8080
 
 # Command to run the app
-CMD ["python", "/flask_app/flask_api.py"]
+CMD ["python", "/app/flask_app/flask_api.py"]
