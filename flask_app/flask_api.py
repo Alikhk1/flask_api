@@ -8,8 +8,7 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 app = Flask(__name__)
 CORS(app)
 
-MODEL_PATH = "model.tflite"  # Make sure it's in the same folder as the Flask app
-
+MODEL_PATH = "/app/flask_app/model.tflite"  # Update this path
 try:
     interpreter = tf.lite.Interpreter(model_path=MODEL_PATH)
     interpreter.allocate_tensors()
