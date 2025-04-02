@@ -1,4 +1,5 @@
 import os
+import gdown
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import numpy as np
@@ -13,6 +14,21 @@ CORS(app)
 MODEL_PATH = "/app/flask_app/model.tflite"
 SCALER_PATH = "/app/flask_app/scaler.pkl"
 
+# Google Drive File ID
+MODEL_FILE_ID = "1-0E4AQHqYJdJxqx0MSWb1uNVxtDZh78k"  # Your model file ID from Drive
+
+def download_model():
+    """Download the model from Google Drive if not found locally."""
+    if not os.path.exists(MODEL_PATH):
+        print("📥 Downloading model from Google Drive...")
+        url = f"https://drive.google.com/uc?id={MODEL_FILE_ID}"
+        gdown.download(url, MODEL_PATH, quiet=False)
+    else:
+        print("✅ Model already exists.")
+
+# Ensure the model is downloaded
+download_model()
+
 # Load the TFLite model
 try:
     interpreter = tflite.Interpreter(model_path=MODEL_PATH)
@@ -22,6 +38,7 @@ try:
     print("✅ Model loaded successfully!")
 except Exception as e:
     print(f"❌ Error loading model: {e}")
+    interpreter = None
 
 # Load the saved scaler
 try:
@@ -29,6 +46,7 @@ try:
     print("✅ Scaler loaded successfully!")
 except Exception as e:
     print(f"❌ Error loading scaler: {e}")
+    scaler = None
 
 # Define measurement names
 measurement_names = ["Arm Length", "Shoulder Width", "Chest", "Waist", "Hip", "Neck"]
@@ -57,13 +75,19 @@ def predict():
     if "image" not in request.files:
         return jsonify({"error": "No image provided"}), 400
 
+    if interpreter is None:
+        return jsonify({"error": "Model not loaded properly."}), 500
+    
+    if scaler is None:
+        return jsonify({"error": "Scaler not loaded properly."}), 500
+
     image = request.files["image"]
     image_bytes = image.read()
 
     try:
         # Preprocess image
         img = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_COLOR)
-        img = cv2.resize(img, (128, 128))
+        img = cv2.resize(img, (128, 128))  # Ensure it matches model input size
         img = img / 255.0  # Normalize
         img = np.expand_dims(img, axis=0).astype(np.float32)
 
