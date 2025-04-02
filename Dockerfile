@@ -5,7 +5,7 @@ FROM python:3.9
 WORKDIR /app
 
 # Install necessary dependencies
-RUN pip install --no-cache-dir flask flask-cors tensorflow-cpu numpy pillow joblib opencv-python gdown
+RUN pip install --no-cache-dir flask flask-cors tensorflow-cpu numpy pillow joblib opencv-python gdown scikit-learn
 
 # Install libGL for OpenCV
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
