@@ -9,7 +9,7 @@ WORKDIR /app
 COPY . /app
 
 # Install dependencies
-RUN pip install --no-cache-dir flask flask-cors tensorflow numpy pillow
+RUN pip install --no-cache-dir flask flask-cors tensorflow numpy pillow joblib opencv-python
 
 # Expose the port Flask runs on
 EXPOSE 8080
