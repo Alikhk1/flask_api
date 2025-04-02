@@ -4,18 +4,14 @@ FROM python:3.9
 # Set the working directory in the container
 WORKDIR /app
 
+# Install necessary dependencies
+RUN pip install --no-cache-dir flask flask-cors tensorflow-cpu numpy pillow joblib opencv-python gdown
+
 # Copy all files from local folder to container
 COPY . /app
 
-# Install dependencies and system libraries
-RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
-    libsm6 \
-    libxext6 \
-    libxrender-dev
-
-# Install Python dependencies
-RUN pip install --no-cache-dir flask flask-cors tensorflow numpy pillow joblib opencv-python gdown
+# Download model from Google Drive
+RUN gdown --id 1-0E4AQHqYJdJxqx0MSWb1uNVxtDZh78k -O /app/flask_app/model.tflite
 
 # Expose the port Flask runs on
 EXPOSE 8080
