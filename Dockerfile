@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev
 
 # Install Python dependencies
-RUN pip install --no-cache-dir flask flask-cors tensorflow numpy pillow joblib opencv-python
+RUN pip install --no-cache-dir flask flask-cors tensorflow numpy pillow joblib opencv-python gdown
 
 # Expose the port Flask runs on
 EXPOSE 8080
