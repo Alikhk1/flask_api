@@ -7,6 +7,9 @@ WORKDIR /app
 # Install necessary dependencies
 RUN pip install --no-cache-dir flask flask-cors tensorflow-cpu numpy pillow joblib opencv-python gdown
 
+# Install libGL for OpenCV
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
+
 # Copy all files from local folder to container
 COPY . /app
 
