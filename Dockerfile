@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y libgl1-mesa-glx
 COPY . /app
 
 # Download model from Google Drive
-RUN gdown --id 1-0E4AQHqYJdJxqx0MSWb1uNVxtDZh78k -O /app/flask_app/model.tflite
+RUN gdown --id 1dflDHMeP_wZWUL-5oGWkAH0K_wZQqi4W -O /app/flask_app/model.tflite
 
 # Expose the port Flask runs on
 EXPOSE 8080
